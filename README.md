@@ -3,7 +3,10 @@ Face recognition
 ----------------  
 Packages used 
 ----------------------------- 
-Python: '3.7.1' Tensorflow: 1.13.0-rc1 Opencv: 4.0.0 Architecture used : Facenet davidsandberg github  
+-Python: '3.7.1' 
+-Tensorflow: 1.13.0-rc1 
+-Opencv: 4.0.0 
+-Architecture used : Facenet davidsandberg github  
 Steps ------  1) Download and extract the zip file 
 2) Data - Images of 3 person in 3 folder (Andrew Ng,Geoffrey Hinton,YanLecunn) 
 3) models - All the models are saved in this folder 
