@@ -1,4 +1,3 @@
-# face_recognition_facenet
 Face recognition 
 ----------------  
 Packages used 
@@ -7,8 +6,10 @@ Packages used
 - Tensorflow: 1.13.0-rc1 
 - Opencv: 4.0.0 
 - Architecture used : Facenet davidsandberg github  
-Steps ------  1) Download and extract the zip file 
-2) Data - Images of 3 person in 3 folder (Andrew Ng,Geoffrey Hinton,YanLecunn) 
+Steps 
+------  
+- 1) Download and extract the zip file 
+- 2) Data - Images of 3 person in 3 folder (Andrew Ng,Geoffrey Hinton,YanLecunn) 
 3) models - All the models are saved in this folder 
 4) scripts - All scripts 
 5) test data - This folder contain 3 test image of each person and one unknown person  
