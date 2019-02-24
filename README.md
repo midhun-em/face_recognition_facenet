@@ -5,7 +5,7 @@ Packages used
 - Python: '3.7.1' 
 - Tensorflow: 1.13.0-rc1 
 - Opencv: 4.0.0 
-- Architecture used : Facenet davidsandberg github  
+- Architecture used : Facenet 
 
 Steps 
 ------  
