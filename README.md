@@ -18,6 +18,7 @@ Steps
 - 7) Train the model for 3 person using train_model.py from folder scripts 
 - 8) Run predict_image.py for testing on images of all 3 person and one unknown person.
 
-
+ References
+ ----------- 
 - Inspired from https://github.com/davidsandberg/facenet
 - For more details : https://arxiv.org/abs/1503.03832 
