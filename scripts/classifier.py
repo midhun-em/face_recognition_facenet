@@ -1,4 +1,3 @@
-
 import tensorflow as tf
 import numpy as np
 import facenet
@@ -7,7 +6,7 @@ import math
 import pickle
 from sklearn.svm import SVC
 import sys
-
+import numpy as np
 class training:
     def __init__(self, datadir, modeldir,classifier_filename):
         self.datadir = datadir
@@ -41,17 +40,8 @@ class training:
                     images = facenet.load_data(paths_batch, False, False, image_size)
                     feed_dict = {images_placeholder: images, phase_train_placeholder: False}
                     emb_array[start_index:end_index, :] = sess.run(embeddings, feed_dict=feed_dict)
-
-                classifier_file_name = os.path.expanduser(self.classifier_filename)
-
-                # Training Started
-                print('Training Started')
-                model = SVC(kernel='linear', probability=True)
-                model.fit(emb_array, label)
-
-                class_names = [cls.name.replace('_', ' ') for cls in img_data]
-
-                # Saving model
-                with open(classifier_file_name, 'wb') as outfile:
-                    pickle.dump((model, class_names), outfile)
-                return classifier_file_name
+                label = np.array(label).reshape(75,1)
+                print(label.shape)
+                emb_array_with_label = np.append(emb_array, label, axis=1)
+                np.save(self.classifier_filename, emb_array_with_label)
+                return 'emb_array'

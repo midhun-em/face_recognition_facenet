@@ -7,13 +7,17 @@ import facenet
 import os
 import time
 import pickle
+from sklearn.metrics.pairwise import euclidean_distances
 import sys
 img_path='../test_data/yl.jpeg'
 modeldir = '../models/20170511-185253.pb'
-classifier_filename = '../models/classifer.pkl'
 face_cascade = cv2.CascadeClassifier('../models/haarcascade_frontalface_default.xml')
 train_img="../data"
 plt.ion()
+
+emb_array_full = np.load('../models/emb_array.npy')
+emb_array_data = emb_array_full[:,0:128]
+emb_array_data.shape
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 with tf.Graph().as_default():
@@ -34,9 +38,7 @@ with tf.Graph().as_default():
 		phase_train_placeholder = tf.get_default_graph().get_tensor_by_name("phase_train:0")
 		embedding_size = embeddings.get_shape()[1]
 
-		classifier_filename_exp = os.path.expanduser(classifier_filename)
-		with open(classifier_filename_exp, 'rb') as infile:
-			(model, class_names) = pickle.load(infile,encoding='latin1')
+
 		print('Start Recognition!')
 		frame = cv2.imread(img_path,0)
 		frame = facenet.to_rgb(frame)          
@@ -56,14 +58,15 @@ with tf.Graph().as_default():
 		crop_face = facenet.prewhiten(crop_face)                 
 		feed_dict = {images_placeholder: crop_face, phase_train_placeholder: False}
 		emb_array[0, :] = sess.run(embeddings, feed_dict=feed_dict)
-		predictions = model.predict_proba(emb_array)
-		conf = predictions.max()
-		if conf>0.6:
-			cv2.putText(image,HumanNames[predictions.argmax()], (10,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-			cv2.putText(image,'confidence:'+str(np.round(predictions.max(),2)), (10,130), cv2.FONT_HERSHEY_SIMPLEX, .5, 200)
-		else:
-			cv2.putText(image,'unknown', (10,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+		
+sess.close()		
+HumanNames = os.listdir(train_img)
+HumanNames.sort()
+emb_array_label = emb_array_full[:,128:129]
+final_label = emb_array_label[euclidean_distances(emb_array_data, emb_array).argmin()]
+print('label',final_label)			
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+cv2.putText(image,HumanNames[int(final_label)], (10,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 cv2.imshow('image',image)
 if cv2.waitKey(1000000) & 0xFF == ord('q'):
 	sys.exit("Thanks")
